@@ -1,0 +1,51 @@
+#title{
+    text-align: center;
+    font-size: 2em;
+}
+#selector{
+    text-align: center;
+    margin-bottom: 20px;
+    
+}
+#container{
+    width: 100%;
+}
+#schedule{
+    position: relative;
+    width: 80%;
+    margin: auto;
+
+}
+
+.day_calendar{
+    width: 10%;
+    height: 90px;
+    float: left;
+    border: 1px solid #000000;
+    text-align: center;
+    box-sizing: 12%;
+}
+
+#day8{
+    clear:left;
+}
+#day15{
+    clear:left;
+}
+#day22{
+    clear:left;
+}
+#day29{
+    clear: left;
+}
+#day36{
+    clear: left;
+}
+.day_number{
+    font-size: 2em;
+}
+#today{
+    border: 2px solid #ff0000;
+    font-size: 1.3em;
+    color: #ff0000;
+}
