@@ -9,12 +9,14 @@ let selectOne;
 let selectTwo;
 let pre;
 let post;
+let goToday;
 
 
 function start() {
     schedule = document.getElementById("schedule");
     pre = document.getElementById("pre");
     post = document.getElementById("post");
+    goToday = document.getElementById("go_today");
     paintMonth();
     paintCalendar();
     paintDays();
@@ -24,6 +26,13 @@ function start() {
     selectTwo.addEventListener('change', newDate);
     pre.addEventListener('click', preMonth)
     post.addEventListener('click', postMonth)
+    //Volver al día de hoy
+    goToday.addEventListener('click', () => {
+        date =dateNow;
+        updateCalendar();
+        refillSelectMonth();
+        refillSelectYear();
+    })
 
 }
 
