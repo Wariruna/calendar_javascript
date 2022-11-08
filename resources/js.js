@@ -1,4 +1,5 @@
 let date = new Date();
+let dateNow = new Date();
 window.onload = start;
 
 let schedule;
@@ -6,13 +7,16 @@ let month;
 let today;
 let selectOne;
 let selectTwo;
+let pre;
+let post;
 
 /**
- * SOLO FALTA PINTAR EL NÚMERO MÁXIMO DE DIAS DEL MES
+ * FALTA DAR FUNCIONABILIDAD A LOS BOTONES DE MES ANTERIOR O SIGUIENTE
  */
-
 function start() {
     schedule = document.getElementById("schedule");
+    pre = document.getElementById("pre");
+    post = document.getElementById("post");
     paintMonth();
     paintCalendar();
     paintDays();
@@ -20,6 +24,8 @@ function start() {
     refillSelectYear();
     selectOne.addEventListener('change', newDate);
     selectTwo.addEventListener('change', newDate);
+    pre.addEventListener('click', preMonth)
+    post.addEventListener('click', postMonth)
 
 }
 
@@ -31,18 +37,46 @@ function refillSelectMonth() {
     }
 }
 
-//Lena el Select de los Años (selectTwo)
+//Llena el Select de los Años (selectTwo)
 function refillSelectYear() {
     selectTwo = document.getElementById("select_year");
     for (let i = new Date().getFullYear(); i < 2101; i++) {
         selectTwo.innerHTML += "<option value='" + i + "' >" + i + "</option>"
     }
 }
+
+//Te manda al mes anterior
+function preMonth() {
+    let preMonthy = date.getMonth() - 1;
+    if (preMonthy < 0) {
+        date.setFullYear(date.getFullYear() - 1);
+        date.setMonth(11);
+    } else {
+        date.setMonth(date.getMonth() -1)
+    }
+    updateCalendar();
+}
+
+//Te manda al mes posterior
+function postMonth() {
+    let postMonthy = date.getMonth() + 1;
+    if (postMonthy > 11) {
+        date.setFullYear(date.getFullYear() + 1);
+        date.setMonth(0);
+    } else {
+        date.setMonth(date.getMonth() +1)
+    }
+    updateCalendar();
+}
+
+
+
 //Pinta el nombre del mes del año en el encabezado
 function paintMonth() {
     let divMonth = document.getElementById("title")
     month = date.getMonth();
-    divMonth.innerText = selectMonth(month);
+    year = date.getFullYear();
+    divMonth.innerText = selectMonth(month) + " " + year;
 }
 //Pinta el calendario
 function paintCalendar() {
@@ -52,7 +86,7 @@ function paintCalendar() {
     for (i = 0; i < totalDays; i++) {
 
         if (i + 1 === today + (weekDayActualOne() - 1) && isThisMonth(date)) {
-            console.log("wdao:" + weekDayActualOne());
+
             schedule.innerHTML += "<div class='day_calendar' id='today'>TODAY</div>";
             continue;
         } else {
@@ -83,8 +117,8 @@ function paintCalendar() {
 
 //Crea una nueva fecha con los valores de los selects One y Two
 function newDate() {
-    date = new Date(selectTwo.value, selectOne.value, 1);
-    console.log("fecha: " + date);
+    date.setFullYear(selectTwo.value);
+    date.setMonth(selectOne.value);
     updateCalendar();
 }
 
@@ -92,7 +126,7 @@ function newDate() {
 function updateCalendar() {
 
     if (isThisMonth(date)) {
-        date = new Date(selectTwo.value, selectOne.value, new Date().getDate());
+        date = dateNow;
     }
     deleteAll();
     paintCalendar();
@@ -107,9 +141,8 @@ function deleteAll() {
 //Esta funcion obtiene el dia de la semana que cae el dia 1 de ese mes.
 function weekDayActualOne() {
     let prov = new Date(actualYear(), actualMonth(), 1).getDay();
-    console.log("prov: " + prov);
+
     if (prov === 0) {
-        console.log("prov0: " + prov);
         return 7;
     } else {
         return prov;
@@ -117,7 +150,7 @@ function weekDayActualOne() {
 }
 
 //Esta funcion obtiene los dias que tiene ese mes; Un Date con dia 0 te devuelve el ultimo día del mes anterior!!
-function totalDaysMonth(dateParam2){
+function totalDaysMonth(dateParam2) {
     compareDate = new Date(dateParam2.getFullYear(), (dateParam2.getMonth() + 1), 0);
     return compareDate.getDate();
 
@@ -133,13 +166,9 @@ function actualYear() {
 }
 
 function paintDays() {
-    
-    
     let count = 1;
-    console.log("today paint days: " + today);
     for (let i = weekDayActualOne(); i < totalDaysMonth(date) + weekDayActualOne(); i++) {
         if ((i - 1) === today && isThisMonth(date)) {
-            
             document.getElementById("today").innerHTML += "<div class='day_number' id='day_number" + count + "' >" + count + "</div>";
             count++;
             continue;
@@ -152,12 +181,11 @@ function paintDays() {
 
 //Este método comprueba si el usuario esta pidiendo que se muestre el mes actual para así marcar el día de hoy.
 function isThisMonth(dateParam) {
-    let dateNow = new Date();
+
     if (dateParam.getMonth() === dateNow.getMonth() && dateParam.getFullYear() === dateNow.getFullYear()) {
         date = new Date();
         return true;
     } else {
-        console.log(false);
         return false;
     }
 }
