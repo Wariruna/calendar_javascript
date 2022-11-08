@@ -10,9 +10,7 @@ let selectTwo;
 let pre;
 let post;
 
-/**
- * FALTA DAR FUNCIONABILIDAD A LOS BOTONES DE MES ANTERIOR O SIGUIENTE
- */
+
 function start() {
     schedule = document.getElementById("schedule");
     pre = document.getElementById("pre");
