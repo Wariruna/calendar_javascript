@@ -30,8 +30,6 @@ function start() {
     goToday.addEventListener('click', () => {
         date =dateNow;
         updateCalendar();
-        refillSelectMonth();
-        refillSelectYear();
     })
 
 }
